@@ -53,7 +53,7 @@ def add_mmber():
     if "lucky_numbers" not in body:
         return jsonify({'msg': 'el campo lucky_numbers es obligatorio'}), 400
     
-    new_member= {
+    new_member = {
         'id':body['id'],
         'first_name':body['first_name'],   
         'last_name': jackson_family.last_name,
@@ -63,26 +63,22 @@ def add_mmber():
     new_members=jackson_family.add_member(new_member)
     return jsonify({'msg':'ok', 'members':new_members}), 200
 
-@app.route('/members/<int:member_id>', methods=['GET'])
+@app.route('/member/<int:member_id>', methods=['GET'])
 def get_specific_member(member_id): 
     alone_member = jackson_family.get_member(member_id) 
     if alone_member:
-        response_body = {'msg': 'family member found',
-                        "results": alone_member }
+        response_body = alone_member 
         return jsonify(response_body), 200
-    response_body = {'msg': 'family member not found',
-                            "results": [] }
+    response_body = {  }
     return jsonify(response_body), 404
 
-@app.route('/members/<int:member_id>', methods=['DELETE'])
+@app.route('/member/<int:member_id>', methods=['DELETE'])
 def delete_member(member_id):
-    jackson_family.delete_member(member_id)
     deleted_member = jackson_family.delete_member(member_id)
     if deleted_member:
-          response_body = {'msg': 'family member deleted',
-                        "results": deleted_member }
+          response_body = { 'done': True }
           return  jsonify(response_body), 200
-    response_body = {'msg':'family member delete', 'results':deleted_member}
+    response_body = { 'done': False }
     return jsonify(response_body), 404
           
 
